@@ -10,6 +10,8 @@ float VetorPos(float Notas[3], float Pesos[3]) {
     Notas[2] = Notas[0];
     Notas[1] = CopiarNotas[1];
     Notas[0] = CopiarNotas[0];
+    /* Muda a ordem dos pesos para verificar qual(is) é maior,
+    mantendo peso que sera usado para verificar no Vetor 0 e 1*/
     CopiarPesos[0] = Pesos[1];
     CopiarPesos[1] = Pesos[2];
     Pesos[2] = Pesos[0];
@@ -39,7 +41,7 @@ int VerificarPeso(float Pesos[3], float Notas[3], float Ponderada, int NotPass, 
 }
 
 int main() {
-    float Notas[3], Ponderada, Pesos[3];
+    float Notas[3], Ponderada, Pesos[3], Copiar;
     int NotPass, i, x, Posicao[3];
 
     system("cls");
@@ -56,17 +58,21 @@ int main() {
     Posicao[2] = 2;
 
     while (1) {
+        // 0 usado caso caia no Else, ele faça a mudança dos Pesos para efetuar outras Verificação.
         NotPass = VerificarPeso(Pesos, Notas, Ponderada, 0, Posicao);
         if (NotPass == 0) {
+            VetorPos(Notas, Pesos);
             if (Posicao[1] != 2) {
                 Posicao[1]++;
                 Posicao[2]++;
             }
             else {
                 Posicao[1]--;
+                Copiar = Notas[0];
+                Notas[0] = Notas[1];
+                Notas[1] = Copiar;
             }
             Posicao[0]++;
-            VetorPos(Notas, Pesos);
         }
         else {
             break;
