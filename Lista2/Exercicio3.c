@@ -19,15 +19,19 @@ float VetorPos(float Notas[3], float Pesos[3]) {
     return Notas[3], Pesos[3];
 }
 
-int VerificarPeso(float PesoA, float PesoB, float PesoC, float Notas[3], float Ponderada, int NotPass, int Posicao) {
-    if (PesoA > PesoB and PesoA > PesoC) {
+int VerificarPeso(float Pesos[3], float Notas[3], float Ponderada, int NotPass, int Posicao[3]) {
+    if (Pesos[0] > Pesos[1] and Pesos[0] > Pesos[2]) {
         printf("\nA Media Ponderada das Notas %.2f, %.2f, %.2f sera: %.2f.\n", Notas[0], Notas[1], Notas[2], Ponderada);
-        printf("A Nota %d (%.2f) e a maior nota apos o Calculo do Peso %d (%.2f).", Posicao, Notas[0], Posicao, PesoA);
+        printf("A Nota %d (%.2f) e a maior nota apos o Calculo do Peso %d (%.2f).", Posicao[0], Notas[0], Posicao[0], Pesos[0]);
         return NotPass = 1;
     }
-    else if (PesoA == PesoB and PesoA > PesoC) {
+    else if (Pesos[0] == Pesos[1] and Pesos[0] > Pesos[2]) {
         printf("\nA Media Ponderada das Notas %.2f, %.2f, %.2f sera: %.2f.\n", Notas[0], Notas[1], Notas[2], Ponderada);
-        printf("As Notas 1 (%.2f) e 2 (%.2f) foram as maiores notas apos o calculo do peso 1 (%.2f) e peso 2 (%.2f)", Notas[0], Notas[1], PesoA, PesoB);
+        printf("As Notas %d (%.2f) e %d (%.2f) foram as maiores notas apos o calculo do peso %d (%.2f) e peso %d (%.2f)", Posicao[1], Notas[0], Posicao[2], Notas[1], Posicao[1], Pesos[0], Posicao[2], Pesos[1]);
+    }
+    else if (Pesos[0] == Pesos[1] and Pesos[0] == Pesos[2]) {
+        printf("\nA Media Ponderada das Notas %.2f, %.2f, %.2f sera: %.2f.\n", Notas[0], Notas[1], Notas[2], Ponderada);
+        printf("As tres Notas foram iguais.");
     }
     else {
         return NotPass;
@@ -36,7 +40,7 @@ int VerificarPeso(float PesoA, float PesoB, float PesoC, float Notas[3], float P
 
 int main() {
     float Notas[3], Ponderada, Pesos[3];
-    int NotPass, i, x, Posicao;
+    int NotPass, i, x, Posicao[3];
 
     system("cls");
     x = 1;
@@ -44,28 +48,30 @@ int main() {
         printf("digite as Tres Notas, 1 por vez: ");
         scanf("%f", &Notas[i]);
         Pesos[i] = Notas[i] * x;
+        Posicao[i] = 1;
         x++;
         Ponderada = Ponderada + Pesos[i];
     }
     Ponderada = Ponderada / 6;
+    Posicao[2] = 2;
 
-    Posicao = 1;
     while (1) {
-        NotPass = VerificarPeso(Pesos[0], Pesos[1], Pesos[2], Notas, Ponderada, 0, Posicao);
+        NotPass = VerificarPeso(Pesos, Notas, Ponderada, 0, Posicao);
         if (NotPass == 0) {
-            Posicao++;
+            if (Posicao[1] != 2) {
+                Posicao[1]++;
+                Posicao[2]++;
+            }
+            else {
+                Posicao[1]--;
+            }
+            Posicao[0]++;
             VetorPos(Notas, Pesos);
         }
         else {
             break;
         }
     }
-
-    /*
-    else {
-        printf("\nA Media Ponderada das Notas %.2f, %.2f, %.2f sera: %.2f.\n", Nota1, Nota2, Nota3, Ponderada);
-        printf("As tres Notas foram iguais.");
-    }*/
 
     return 0;
 }
