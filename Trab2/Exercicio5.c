@@ -17,23 +17,18 @@ int main() {
         scanf("%d", &Idade);
         if (Idade <= 15) {
             QuantFaixa[0]++;
-            printf("N = %d\n", QuantFaixa[0]);
         }
         else if (Idade <= 30) {
             QuantFaixa[1]++;
-            printf("N = %d\n", QuantFaixa[1]);
         }
         else if (Idade <= 45) {
             QuantFaixa[2]++;
-            printf("N = %d\n", QuantFaixa[2]);
         }
         else if (Idade <= 60) {
             QuantFaixa[3]++;
-            printf("N = %d\n", QuantFaixa[3]);
         }
         else {
             QuantFaixa[4]++;
-            printf("N = %d\n", QuantFaixa[4]);
         }
     }
     printf("%d%% ou %d Pessoas tem ate 15 Anos.\n%d Pessoas tem de 16 a 30 Anos.\n%d Pessoas tem de 31 a 45 Anos.\n%d Pessoas tem de 46 a 60 Anos."
