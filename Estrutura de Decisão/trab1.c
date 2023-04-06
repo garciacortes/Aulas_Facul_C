@@ -10,21 +10,21 @@ struct produto
 {
     int codigo;
     char nome[TAMANHO_STRING];
-    struct produto *prox;
+    struct produto* prox;
 };
 
-char *obtemString()
+char* obtemString()
 {
-    char *nome;
+    char* nome;
 
     //aloca TAMANHO_STRING caracteres para o nome
-    nome = malloc(TAMANHO_STRING*sizeof(char));
+    nome = malloc(TAMANHO_STRING * sizeof(char));
 
     //limpa o buffer de entrada
     fflush(stdin);
 
     //obtem a string desejada
-    nome = fgets(nome,TAMANHO_STRING,stdin);
+    nome = fgets(nome, TAMANHO_STRING, stdin);
 
     //outra opcao seria, porem apresenta o problema de estouro de buffer
     //nome = gets(nome);
@@ -49,14 +49,14 @@ void pausa()
     getchar();
 }
 
-listaProdutos *criaProduto()
+listaProdutos* criaProduto()
 {
     int codProd;
-    char *nome; //trataremos as strings como ponteiros pois utilizaremos a funcao obtemString para realizar a leitura
+    char* nome; //trataremos as strings como ponteiros pois utilizaremos a funcao obtemString para realizar a leitura
 
     //obtem os dados para o novo no
     printf("Informe o codigo do Produto: ");
-    scanf("%d",&codProd);
+    scanf("%d", &codProd);
 
     printf("Informe o nome do Produto:  ");
     nome = obtemString(); //criado uma funcao especifica para ler uma estring
@@ -66,15 +66,15 @@ listaProdutos *criaProduto()
     listaProdutos* novoProduto = malloc(sizeof(listaProdutos));
     //preenche o novo no com os dados obtidos
     novoProduto->codigo = codProd;
-    strcpy(novoProduto->nome,nome); //strcpy deve ser utilizada todas as vezes para armazenar dados em uma variavel do tipo string (vetor de char)
+    strcpy(novoProduto->nome, nome); //strcpy deve ser utilizada todas as vezes para armazenar dados em uma variavel do tipo string (vetor de char)
 
     return novoProduto;
 }
 
-listaProdutos *inserir(listaProdutos* lp)
+listaProdutos* inserir(listaProdutos* lp)
 {
     //armazenar o endereço do no que esta sendo criado
-    listaProdutos *novoProduto;
+    listaProdutos* novoProduto;
 
     //chama que pegar o endereço de memoria livre e armazenar os dados do novo novo
     novoProduto = criaProduto();
@@ -86,12 +86,12 @@ listaProdutos *inserir(listaProdutos* lp)
     return novoProduto;
 }
 
-listaProdutos *removeFim(listaProdutos *lp)
+listaProdutos* removeFim(listaProdutos* lp)
 {
     listaProdutos* no = lp;
     listaProdutos* penultimoProduto;
 
-    if (lp==NULL)
+    if (lp == NULL)
     {
         printf("A lista esta vazia!");
         pausa();
@@ -100,27 +100,27 @@ listaProdutos *removeFim(listaProdutos *lp)
     {
 
         //navega ate o penultimo elemento considerando que o ultimo e nullo
-        while(no->prox!=NULL)
+        while (no->prox != NULL)
         {
             //armazena o endereco do no anterior ao no atual. mantem defasado uma posicao em relacao a variavel no
-            penultimoProduto=no;
-            no=no->prox;
+            penultimoProduto = no;
+            no = no->prox;
         }
 
         //se a variavel no for igual a lp mesmo apos a execucao do laco anterior
         //significa que a lista possui apenas um no
-        if (no==lp)
+        if (no == lp)
         {
             //remove o no
             free(lp);
             //faz lp conter null para ser retornada pelo return
-            lp=NULL;
+            lp = NULL;
         }
         else
         {
             //a lista tem mais de um no
             //faz o pemultimo no apontar para null
-            penultimoProduto->prox=NULL;
+            penultimoProduto->prox = NULL;
             //desaloca o atual ultimo no
             free(no);
         }
@@ -129,45 +129,45 @@ listaProdutos *removeFim(listaProdutos *lp)
     return lp;
 }
 
-listaProdutos *removeTudo(listaProdutos *lp)
+listaProdutos* removeTudo(listaProdutos* lp)
 {
-    while(lp!=NULL)   //percorre todos os elementes ate chegar no ultimo que e nulo
+    while (lp != NULL)   //percorre todos os elementes ate chegar no ultimo que e nulo
     {
         free(lp);  //desaloca a memoria utilizada pelo no antes de <<<pegar o proximo no>>
-        lp=lp->prox; //pega o proximo
+        lp = lp->prox; //pega o proximo
     }
 
     return lp;
 }
 
-listaProdutos *removePosicao(listaProdutos *lp)
+listaProdutos* removePosicao(listaProdutos* lp)
 {
 
     //variavel auxilar para navegar na lista
-    listaProdutos *no = lp;
+    listaProdutos* no = lp;
 
-    if(no==NULL)
+    if (no == NULL)
     {
         printf("A lista esta vazia!");
         pausa();
     }
     else
     {
-        listaProdutos *anteriorProduto=NULL;
+        listaProdutos* anteriorProduto = NULL;
 
-        int cont=1;
+        int cont = 1;
         int posicao;
 
         printf("Digite a posicao desejada: ");
-        scanf("%d",&posicao);
+        scanf("%d", &posicao);
 
         //navega na lista ate a posicao desejada pelo usuario
-        for(cont=1; cont<posicao; cont++)
+        for (cont = 1; cont < posicao; cont++)
         {
-            if (no->prox!=NULL)
+            if (no->prox != NULL)
             {
-                anteriorProduto=no;
-                no=no->prox;
+                anteriorProduto = no;
+                no = no->prox;
             }
             else     //se o no->prox for nulo nao faz sentido continuar no laco ja estamos no ultimo no
             {
@@ -175,22 +175,22 @@ listaProdutos *removePosicao(listaProdutos *lp)
             }
         }
 
-        if(cont==1)   //foi escolhido excluir o primeiro no
+        if (cont == 1)   //foi escolhido excluir o primeiro no
         {
-            if (no->prox==NULL)   //nao existe mais nos na fila
+            if (no->prox == NULL)   //nao existe mais nos na fila
             {
                 free(lp);
-                lp=NULL;
+                lp = NULL;
             }
             else     //existe mais nos na fila
             {
-                lp=no->prox; //faz o lp apontar para o proximo no (este sera a partir de agora o primeiro no)
+                lp = no->prox; //faz o lp apontar para o proximo no (este sera a partir de agora o primeiro no)
                 free(no);
             }
         }
         else
         {
-            if (no->prox==NULL)   //existe mais de um no na fila e foi escolhido excluir o ultimo no
+            if (no->prox == NULL)   //existe mais de um no na fila e foi escolhido excluir o ultimo no
             {
                 anteriorProduto->prox = NULL;
             }
@@ -205,23 +205,23 @@ listaProdutos *removePosicao(listaProdutos *lp)
     return lp;
 }
 
-void inserirFim(listaProdutos *lp)
+void inserirFim(listaProdutos* lp)
 {
 
-    if(lp==NULL)
+    if (lp == NULL)
     {
         printf("A lista esta vazia!");
         pausa();
     }
     else
     {
-        listaProdutos *penultimoProduto;
-        listaProdutos *novoProduto;
+        listaProdutos* penultimoProduto;
+        listaProdutos* novoProduto;
 
-        while(lp!=NULL)
+        while (lp != NULL)
         {
-            penultimoProduto=lp;
-            lp=lp->prox;
+            penultimoProduto = lp;
+            lp = lp->prox;
         }
 
         novoProduto = criaProduto();
@@ -231,10 +231,10 @@ void inserirFim(listaProdutos *lp)
 
 }
 
-void inserirPosicao(listaProdutos *lp)
+void inserirPosicao(listaProdutos* lp)
 {
 
-    if(lp==NULL)
+    if (lp == NULL)
     {
         printf("A lista esta vazia!");
         pausa();
@@ -245,30 +245,30 @@ void inserirPosicao(listaProdutos *lp)
         int posicao;
 
         //variavel utilizada para armazenar o endereco do no que ficara anterior ao novo no cadastrado
-        listaProdutos *anteriorProduto;
+        listaProdutos* anteriorProduto;
         //variavel utilizada para armazenar o endereco do novo no
-        listaProdutos *novoProduto;
+        listaProdutos* novoProduto;
 
         printf("Digite a posicao desejada: ");
-        scanf("%d",&posicao);
+        scanf("%d", &posicao);
 
         //navega na lista para encontrar a posicao desejada pelo usuario
-        for(cont=0; cont<posicao; cont++)
+        for (cont = 0; cont < posicao; cont++)
         {
             //obtem o endereço de lp para manter esta variavel defasada uma posicao em relacao a lp
-            anteriorProduto=lp;
+            anteriorProduto = lp;
             //navega na lista ate a posicao desejada pelo usuario ou ate chegar no fim
             //caso a posicao seja maior que a posicao do ultimo no existente
-            if (lp->prox!=NULL)
+            if (lp->prox != NULL)
             {
                 //ainda na chegou no fim, obtem o proximo endereco
-                lp=lp->prox;
+                lp = lp->prox;
             }
             else
             {
                 //o proximo no e o fim da lista
                 //o novo objeto sera inseriado como o ultimo da lista e apontara para lp que sera null
-                lp=NULL;
+                lp = NULL;
                 break;
             }
         }
@@ -281,15 +281,20 @@ void inserirPosicao(listaProdutos *lp)
 
 
 
-void inverterPosicao(listaProdutos *lp)
-{
-    int cont, posicao;
+listaProdutos* inverterPosicao(listaProdutos* lp) {
+
+    int cont, Posicao1, Posicao2;
     listaProdutos* no = lp;
     listaProdutos* noAnterior;
     listaProdutos* Pos1[3];
     listaProdutos* Pos2[3];
 
-    for(cont = 1; cont < 1; cont++) {
+    printf("Digite a Posicao 1 que deseja trocar: ");
+    scanf("%d", &Posicao1);
+    printf("Digite a Posicao 2 que deseja trocar: ");
+    scanf("%d", &Posicao2);
+
+    for (cont = 1; cont < Posicao1; cont++) {
         noAnterior = no;
         no = no->prox;
     }
@@ -301,7 +306,7 @@ void inverterPosicao(listaProdutos *lp)
     printf("Pos[0]: %p\n", Pos1[2]);
 
     no = lp;
-    for(cont = 1; cont < 5; cont++) {
+    for (cont = 1; cont < Posicao2; cont++) {
         noAnterior = no;
         no = no->prox;
     }
@@ -309,11 +314,11 @@ void inverterPosicao(listaProdutos *lp)
     Pos2[1] = no; //5
     Pos2[2] = no->prox; // null
 
-    if(cont == 0 || cont == 1) {
+    if (Posicao1 == 0 || Posicao2 == 0 || Posicao1 == 1 || Posicao2 == 1) {
         Pos2[1]->prox = Pos1[2];
-        lp->prox = Pos2[1];
         Pos1[1]->prox = Pos2[2];
         Pos2[0]->prox = Pos1[1];
+        return Pos2[1];
     }
     else {
         Pos2[1]->prox = Pos1[2];
@@ -323,13 +328,14 @@ void inverterPosicao(listaProdutos *lp)
     }
 
     pausa();
+
 }
 
 
 
-void imprimir(listaProdutos *lp)
+void imprimir(listaProdutos* lp)
 {
-    int i=0; //novo
+    int i = 0; //novo
     printf("\nLista listaProdutos:");
 
     if (lp == NULL)
@@ -340,27 +346,27 @@ void imprimir(listaProdutos *lp)
     else
     {
         printf("\n\n");
-        while(lp!=NULL)
+        while (lp != NULL)
         {
             //contador utilizado apenas para imprimir a posicao do no (posicao 1, posicao 2. ..)
             i++;
             //imprimindo os dados de um determinado no da lista
-            printf("Posicao: %d | Endereco no: %p | Codigo: %d | Nome: %s | Proximo no: %p\n",i,lp,lp->codigo,lp->nome,lp->prox);
+            printf("Posicao: %d | Endereco no: %p | Codigo: %d | Nome: %s | Proximo no: %p\n", i, lp, lp->codigo, lp->nome, lp->prox);
             //obtendo o endereco do proximo no
-            lp=lp->prox;
+            lp = lp->prox;
         }
     }
 }
 
-void busca(listaProdutos *p)
+void busca(listaProdutos* p)
 {
     int codBuscado;
 
     printf("\nInforme o codigo do produto a ser buscado: ");
-    scanf("%d",&codBuscado);
+    scanf("%d", &codBuscado);
 
     //navega na lista ate chegar no ultimo no (null) ou caso encontre o no desejado
-    while((p!=NULL) && (p->codigo != codBuscado))
+    while ((p != NULL) && (p->codigo != codBuscado))
     {
         //obtem o endereco do proximo no
         p = p->prox;
@@ -373,7 +379,7 @@ void busca(listaProdutos *p)
     }
     else
     {
-        printf("\nProduto encontrado no endereco %p\n",p);
+        printf("\nProduto encontrado no endereco %p\n", p);
     }
 
     pausa();
@@ -385,7 +391,7 @@ int main()
 
     //variavel que vai possuir o endereco do primeiro no da lista
     //esta variavel deve ser atualizada por funcoes todas as vezes que um novo no for adicionado como primeiro da lista
-    listaProdutos *inicioLista;
+    listaProdutos* inicioLista;
 
     inicioLista = NULL;
 
@@ -435,7 +441,7 @@ int main()
             inicioLista = removeTudo(inicioLista);
             break;
         case 9:
-            inverterPosicao(inicioLista);
+            inicioLista = inverterPosicao(inicioLista);
             break;
         case 10:
             break;       //opcao para sair do laco e finalizar o programa
@@ -447,8 +453,7 @@ int main()
 
         //system("clear");
         system("cls"); //caso esteja em ambiente windows
-    }
-    while(resposta != 10);
+    } while (resposta != 10);
 
     return 0;
 }
