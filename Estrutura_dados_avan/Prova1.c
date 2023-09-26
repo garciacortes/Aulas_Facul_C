@@ -239,12 +239,12 @@ void trocar(int* a, int* b) {
 void quicksort(info vetor[], int TamanhoDoVetor, int baixo, int alto) {
 
     if (baixo < alto) {
-        int pivô = vetor[alto].valor;
+        int pivo = vetor[alto].valor;
 
         int i = (baixo - 1);
 
         for (int j = baixo; j <= alto - 1; j++) {
-            if (vetor[j].valor <= pivô) {
+            if (vetor[j].valor <= pivo) {
                 i++;
                 trocar(&vetor[i].valor, &vetor[j].valor);
             }
@@ -289,6 +289,7 @@ int main() {
         printf("4 - Merge Sort\n");
         printf("5 - Quick Sort\n");
         printf("6 - Comparativo de tempo de execucao\n");
+        printf("7 - sair\n");
         printf("Digite a opcao escolhida: ");
         scanf("%d", &opcao);
         if (opcao < 6) {
@@ -376,6 +377,8 @@ int main() {
                 tamanho += 20000;
             } while (tamanho == 30000 || tamanho == 10000);
             break;
+        case 7:
+            exit(1);
         }
     } while (opcao != 7);
 
