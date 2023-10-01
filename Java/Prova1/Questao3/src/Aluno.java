@@ -1,9 +1,10 @@
 
 public class Aluno {
 	
-	private int totalAlunos, reprovados;
+	private int totalAlunos, reprovados, count, countNotas;
 	private double[][] notas;
-	private double media;
+	private double media, somaTotal, somaAluno, mediaTotal, nota;
+	double []mediaAcima;
 	
 	public Aluno(int qtde) {
 		totalAlunos = qtde;
@@ -25,30 +26,27 @@ public class Aluno {
 	
 	public double Media() {
 		
-		double somaTotal;
-		int count = 0;
-		
+		count = 0;
 		somaTotal = 0;
 		
 		for (int i = 0; i < totalAlunos; i++) {
 		    if (notas[i] != null) {
 		        for (int j = 0; j < notas[i].length; j++) {
-		            double nota = notas[i][j];
+		            nota = notas[i][j];
 		            somaTotal += nota;
 		            count++;
 		        }
 		    }
 		}
 		
-		double mediaTotal = somaTotal / count;
+		mediaTotal = somaTotal / count;
 		return mediaTotal;
 	}
 	
 	public double[] MediaAcima(double valor) {
 		
-		double somaAluno = 0;
-		int countNotas = 0;
-		double []mediaAcima;
+		somaAluno = 0;
+		countNotas = 0;
 		reprovados = 0;
 		
 		mediaAcima = new double[totalAlunos];
