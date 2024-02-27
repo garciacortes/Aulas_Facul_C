@@ -1,5 +1,7 @@
 package View;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 
 import javax.swing.JButton;
@@ -10,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-public class TelaView extends JFrame {
+public class TelaView extends JFrame implements ActionListener {
 	
 	private JLabel lblNome, lblCPF, lblUser;
 	private JTextField txtNome;
@@ -19,7 +21,8 @@ public class TelaView extends JFrame {
 	private JButton btnEnviar;
 	private final String[] tipoUser = {"Administrador", "Geral"};
 	private static final long serialVersionUID = 1L;
-
+	
+	
 	public TelaView() {
 		setSize(400, 300);
 		setTitle("Tela Inicial");
@@ -52,6 +55,8 @@ public class TelaView extends JFrame {
 		cmbUser = new JComboBox(tipoUser);
 		cmbUser.setBounds(120, 100, 200, 25);
 		
+		btnEnviar.addActionListener(this);
+		
 		getContentPane().add(lblNome);
 		getContentPane().add(txtNome);
 		getContentPane().add(lblCPF);
@@ -60,4 +65,13 @@ public class TelaView extends JFrame {
 		getContentPane().add(cmbUser);
 		getContentPane().add(btnEnviar);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("Enviar")) {
+			teste teste = new teste(txtNome.getText());
+			System.out.println(teste.getNome());
+		}
+	}
+
 }
