@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Exerc4 extends JFrame {
@@ -64,6 +65,7 @@ public class Exerc4 extends JFrame {
 		
 		setVisible(true);
 		
+		
 		btnCalcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				num1 = Double.parseDouble(txtNum1.getText());
@@ -76,8 +78,12 @@ public class Exerc4 extends JFrame {
 				lblMediaPond.setText("A Media Ponderada é: " + Double.toString(mediaPond));
 			}
 		});
-		
-		
+	}
+	
+	public void VerificarCampos() {
+		if(txtNum1.getText().equals(" ") || txtNum2.getText().equals(" ") || txtPeso1.getText().equals(" ") || txtPeso2.getText().equals(" ")) {
+			JOptionPane.show()
+		}
 	}
 
 }
