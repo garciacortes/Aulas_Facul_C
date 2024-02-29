@@ -68,21 +68,28 @@ public class Exerc4 extends JFrame {
 		
 		btnCalcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				num1 = Double.parseDouble(txtNum1.getText());
-				num2 = Double.parseDouble(txtNum2.getText());
-				peso1 = Double.parseDouble(txtPeso1.getText());
-				peso2 = Double.parseDouble(txtPeso1.getText());
 				
-				mediaPond = ((num1 * peso1) + (num2 * peso2)) / (peso1 + peso2);
-				
-				lblMediaPond.setText("A Media Ponderada é: " + Double.toString(mediaPond));
+				boolean verficaCampos = VerificarCampos();
+				if(verficaCampos == true) {
+					num1 = Double.parseDouble(txtNum1.getText());
+					num2 = Double.parseDouble(txtNum2.getText());
+					peso1 = Double.parseDouble(txtPeso1.getText());
+					peso2 = Double.parseDouble(txtPeso1.getText());
+					
+					mediaPond = ((num1 * peso1) + (num2 * peso2)) / (peso1 + peso2);
+					
+					lblMediaPond.setText("A Media Ponderada é: " + Double.toString(mediaPond));
+				}
 			}
 		});
 	}
 	
-	public void VerificarCampos() {
-		if(txtNum1.getText().equals(" ") || txtNum2.getText().equals(" ") || txtPeso1.getText().equals(" ") || txtPeso2.getText().equals(" ")) {
-			JOptionPane.show()
+	public boolean VerificarCampos() {
+		if(txtNum1.getText().equals("") || txtNum2.getText().equals("") || txtPeso1.getText().equals("") || txtPeso2.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Digite todos os Campos", "Alerta", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else {
+			return true;
 		}
 	}
 
