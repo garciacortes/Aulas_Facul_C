@@ -1,29 +1,22 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 public class App {
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		String CaminhoArquivo = "";
+		String CaminhoArquivo = "res/codigo.txt";
 		String TextoAnalisado;
 		Lexer objLexer = new Lexer();
 		
-		JFileChooser filechooser = new JFileChooser();
+		File arquivo = new File(CaminhoArquivo);
+		objLexer.AnalisadorLexico(arquivo);
 		
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivos texto (*.text)", "txt");
-		filechooser.setFileFilter(filter);
-		
-		int returnValue = filechooser.showOpenDialog(null);
-		
-		if(returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = filechooser.getSelectedFile();
-			System.out.println("\n ====> Arquivo selecionado: " + selectedFile.getAbsolutePath());
-			objLexer.AnalisadorLexico(selectedFile);
+		if(!objLexer.AnalisadorLexico(arquivo)) {
+			System.out.println("\n #### Erro na ANALISE LEXICA ######");
 		} else {
-			System.out.println("Nenhum arquivo selecionado.");
+			System.out.println("\n\n ********** ANALISE SINTATICA ********** \n\n");
+			AnalisadorSintatico objSintatico = new AnalisadorSintatico();
+			objSintatico.AnaliseSintatica();
 		}
 	}
 }

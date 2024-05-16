@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Lexer {
 	
 	public TabelaDeSimbolos objTabelaDeSimbolos = new TabelaDeSimbolos();
-	public ArrayList<ClassificacaoLexica> listAnaliseLexica = new ArrayList<ClassificacaoLexica>();
+	public static ArrayList<ClassificacaoLexica> listAnaliseLexica = new ArrayList<ClassificacaoLexica>();
 	
 	boolean TokenVoid(String Lexema) {
 		if(Lexema.equals("void")) {
@@ -41,7 +41,7 @@ public class Lexer {
 	}
 	
 	boolean TokenTipoLeitura(String Lexema) {
-		if(Lexema.equals("sacnf")) {
+		if(Lexema.equals("sacnf") || Lexema.equals(">>")) {
 			return true;
 		} else {
 			return false;
@@ -136,6 +136,38 @@ public class Lexer {
 		}
 	}
 	
+	boolean TokenAspasDuplas(String Lexema) {
+		if(Lexema.equals("\"")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	boolean TokenDoisPontos(String Lexema) {
+		if(Lexema.equals(":")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	boolean TokenFormatacao(String Lexema) {
+		if(Lexema.equals("%d") || Lexema.equals("%f")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	boolean TokenEnderecoDeMemoria(String Lexema) {
+		if(Lexema.equals("&")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	boolean EhDigito(char str) {
 		if(Character.isDigit(str)) {
 			return true;
@@ -153,7 +185,7 @@ public class Lexer {
 	}
 	
 	boolean TokenNumeroInteiro(String Lexema) {
-		if(Lexema.matches("[0-9]+")) {
+		if(Lexema.matches("-?[0-9]+")) {
 			return true;
 		} else {
 			return false;
@@ -208,7 +240,7 @@ public class Lexer {
 		}
 		
 		if(TokenTipoLeitura(Lexema)) {
-			listAnaliseLexica.add(new ClassificacaoLexica(Lexema, Token.LEITURASCANF, linha));
+			listAnaliseLexica.add(new ClassificacaoLexica(Lexema, Token.LEITURADADOS, linha));
 			return;
 		}
 		
@@ -262,6 +294,31 @@ public class Lexer {
 			return;
 		}
 		
+		if(TokenVirgula(Lexema)) {
+			listAnaliseLexica.add(new ClassificacaoLexica(Lexema, Token.VIRGULA, linha));
+			return;
+		}
+		
+		if(TokenAspasDuplas(Lexema)) {
+			listAnaliseLexica.add(new ClassificacaoLexica(Lexema, Token.ASPASDUPLA, linha));
+			return;
+		}
+		
+		if(TokenDoisPontos(Lexema)) {
+			listAnaliseLexica.add(new ClassificacaoLexica(Lexema, Token.DOISPONTOS, linha));
+			return;
+		}
+		
+		if(TokenFormatacao(Lexema)) {
+			listAnaliseLexica.add(new ClassificacaoLexica(Lexema, Token.ESPECIFICADORFORMATACAO, linha));
+			return;
+		}
+		
+		if(TokenEnderecoDeMemoria(Lexema)) {
+			listAnaliseLexica.add(new ClassificacaoLexica(Lexema, Token.ENDERECOMEMORIA, linha));
+			return;
+		}
+		
 		if(TokenNumeroInteiro(Lexema)) {
 			listAnaliseLexica.add(new ClassificacaoLexica(Lexema, Token.NUMEROINTEIRO, linha));
 			return;
@@ -277,6 +334,7 @@ public class Lexer {
 			return;
 		}
 		
+		
 		listAnaliseLexica.add(new ClassificacaoLexica(Lexema, Token.ERRODESCONHECIDO, linha));
 		return;
 	}
@@ -285,10 +343,7 @@ public class Lexer {
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.VOID, "COMANDO VOID");
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.MAIN, "COMANDO MAIN");
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.TIPOVARIAVEL, "TIPO DA VARIAVEL");
-		objTabelaDeSimbolos.AdicionarSimbolo(Token.VARIAVEL, "VARIAVEL");
-		objTabelaDeSimbolos.AdicionarSimbolo(Token.NUMEROINTEIRO, "NUMERO_INTEIRO");
-		objTabelaDeSimbolos.AdicionarSimbolo(Token.NUMEROFLOAT, "NUMERO_FLOAT");
-		objTabelaDeSimbolos.AdicionarSimbolo(Token.LEITURASCANF, "LEITURA COM SCANF");
+		objTabelaDeSimbolos.AdicionarSimbolo(Token.LEITURADADOS, "LEITURA DE DADOS	");
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.IMPRIMIR, "IMPRIMIR NO CONSOLE");
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.ESTRUTURADESICAO, "ESTRUTURAS_DESICAO");
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.ESTRUTURAREPETICAO, "ESTRUTURAS_REPETICAO");
@@ -301,22 +356,37 @@ public class Lexer {
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.FECHAPARENTESE, "FECHA_PARENTESES");
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.PONTOVIRGULA, "PONTO_VIRGULA");
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.VIRGULA, "VIRGULA");
+		objTabelaDeSimbolos.AdicionarSimbolo(Token.ASPASDUPLA, "ASPAS_DUPLAS");
+		objTabelaDeSimbolos.AdicionarSimbolo(Token.VARIAVEL, "VARIAVEL");
+		objTabelaDeSimbolos.AdicionarSimbolo(Token.NUMEROINTEIRO, "NUMERO_INTEIRO");
+		objTabelaDeSimbolos.AdicionarSimbolo(Token.NUMEROFLOAT, "NUMERO_FLOAT");
+		objTabelaDeSimbolos.AdicionarSimbolo(Token.DOISPONTOS, "DOIS_PONTOS");
+		objTabelaDeSimbolos.AdicionarSimbolo(Token.ESPECIFICADORFORMATACAO, "ESPECIFICADOR DE FORMATACAO");
+		objTabelaDeSimbolos.AdicionarSimbolo(Token.ENDERECOMEMORIA, "ENDERECO DE MEMORIA");
 		objTabelaDeSimbolos.AdicionarSimbolo(Token.ERRODESCONHECIDO, "ERRO_DESCONHECIDO");
 	}
 	
-	void GerarAnaliseLexica() {
+	boolean GerarAnaliseLexica() {
+		boolean ResultadoAnaliseLexica = true;
+		
 		for(ClassificacaoLexica e: listAnaliseLexica) {
 			String Lexema = e.Lexema;
 			int Linha = e.Linha;
 			Token CodToken = e.Token;
 			String Simbolo = objTabelaDeSimbolos.BuscarValor(CodToken);
 			
+			if(e.Token == Token.ERRODESCONHECIDO) {
+				ResultadoAnaliseLexica = false;
+			}
+			
 			System.out.println("Linha: " + Linha + " - Lexema: " + Lexema + " Simbolo: " + 
 					Simbolo + " Token: " + CodToken);
 		}
+		
+		return ResultadoAnaliseLexica;
 	}
 	
-	void AnalisadorLexico(File selectedFile) throws FileNotFoundException {
+	boolean AnalisadorLexico(File selectedFile) throws FileNotFoundException {
 		GerarTabelaSimbolos();
 		
 		Scanner LeituraArquivo = new Scanner(selectedFile);
@@ -325,20 +395,21 @@ public class Lexer {
 		System.out.println("\n\n ****** ANALISE LEXICA ****** \n\n");
 		
 		int linha = 1;
-		while(LeituraArquivo.hasNextInt()) {
+		while(LeituraArquivo.hasNextLine()) {
 			TextoArquivoAnalisado = LeituraArquivo.nextLine();
 			
-			String[] ConjuntoLexemas = TextoArquivoAnalisado.split("\\s+");
+			String[] ConjuntoLexemas = TextoArquivoAnalisado.split("[\\s]|(?=[\"(),;=<+*:])|(?<=[\"(=<+&])");
 			
 			for(String lexema: ConjuntoLexemas) {
-				ClassificaLexema(lexema, linha);
+				if(!lexema.isEmpty()) {
+					ClassificaLexema(lexema, linha);
+				}
 			}
-			
 			linha++;
 		}
 		
 		LeituraArquivo.close();
 		
-		GerarAnaliseLexica();
+		return GerarAnaliseLexica();
 	}
 }
