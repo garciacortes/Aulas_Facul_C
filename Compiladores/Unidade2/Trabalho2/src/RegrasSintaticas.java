@@ -17,24 +17,27 @@ public class RegrasSintaticas {
 	 
 	boolean DeclaracaoVariavel(ArrayList<ClassificacaoLexica> VetorAnaliseLexica) {
 		
-		if((VetorAnaliseLexica.get(0).Token == Token.TIPOVARIAVEL) && (VetorAnaliseLexica.get(1).Token == Token.VARIAVEL) &&
-		   (VetorAnaliseLexica.get(2).Token == Token.PONTOVIRGULA)) {
-			return true;
-		}
-		
-		int tamanho = VetorAnaliseLexica.size();
-		
-		if(tamanho < 5) {
-			return false;
-		}
-		
-		if((VetorAnaliseLexica.get(0).Token == Token.TIPOVARIAVEL) && (VetorAnaliseLexica.get(1).Token == Token.VARIAVEL) &&
-		   (VetorAnaliseLexica.get(2).Token == Token.VIRGULA) && (VetorAnaliseLexica.get(3).Token == Token.VARIAVEL) && 
-		   (VetorAnaliseLexica.get(4).Token == Token.PONTOVIRGULA)) {
-			return true;
+		if((VetorAnaliseLexica.get(0).Token == Token.TIPOVARIAVEL)) {
+			System.out.println("TipoVariavel");
+			int i = 1;
+			while(i < VetorAnaliseLexica.size() - 1) {
+				if((VetorAnaliseLexica.get(i).Token == Token.VARIAVEL)) {
+					System.out.println("Variavel");
+					i++;
+					if((VetorAnaliseLexica.get(i).Token == Token.VIRGULA)) {
+						System.out.println("Virgula");
+						i++;
+						continue;
+					} else if((VetorAnaliseLexica.get(i).Token == Token.PONTOVIRGULA)) {
+						System.out.println("PontoVirgula");
+						return true;
+					}
+				}
+			}
 		} else {
 			return false;
 		}
+		return false;
 	}
 	
 	boolean ComandoAtribuicao(ArrayList<ClassificacaoLexica> VetorAnaliseLexica) {

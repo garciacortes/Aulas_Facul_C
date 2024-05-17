@@ -9,7 +9,6 @@ public class App {
 		Lexer objLexer = new Lexer();
 		
 		File arquivo = new File(CaminhoArquivo);
-		objLexer.AnalisadorLexico(arquivo);
 		
 		if(!objLexer.AnalisadorLexico(arquivo)) {
 			System.out.println("\n #### Erro na ANALISE LEXICA ######");
